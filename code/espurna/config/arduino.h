@@ -83,6 +83,8 @@
 //#define ITEAD_SONOFF_T1_2CH
 //#define ITEAD_SONOFF_T1_3CH
 //#define ITEAD_SONOFF_TH
+////reeopp
+//#define ITEAD_SONOFF_TH_MOD
 //#define ITEAD_SONOFF_TOUCH
 //#define IWOOLE_LED_TABLE_LAMP
 //#define JANGOE_WIFI_RELAY_NC
@@ -117,6 +119,8 @@
 //#define PILOTAK_ESP_DIN_V1
 //#define SMARTLIFE_MINI_SMART_SOCKET
 //#define STM_RELAY
+////reeopp
+//#define NUVOTON_2CH_RELAY
 //#define TECKIN_SP20
 //#define TECKIN_SP21
 //#define TECKIN_SP22_V14
@@ -132,6 +136,9 @@
 //#define VANZAVANZU_SMART_WIFI_PLUG_MINI
 //#define WEMOS_D1_MINI
 //#define WEMOS_D1_MINI_RELAYSHIELD
+////reeopp
+//#define WEMOS_D1_MINI_H
+//#define WEMOS_D1_MINI_RELAYSHIELD_MOD
 //#define WEMOS_D1_TARPUNA_SHIELD
 //#define WION_50055
 //#define WORKCHOICE_ECOPLUG

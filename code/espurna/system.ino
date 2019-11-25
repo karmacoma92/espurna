@@ -243,7 +243,9 @@ void _systemSetupSpecificHardware() {
 
     // These devices use the hardware UART
     // to communicate to secondary microcontrollers
-    #if (RF_SUPPORT && !RFB_DIRECT) || (RELAY_PROVIDER == RELAY_PROVIDER_DUAL) || (RELAY_PROVIDER == RELAY_PROVIDER_STM)
+//reeopp
+    #if (RF_SUPPORT && !RFB_DIRECT) || (RELAY_PROVIDER == RELAY_PROVIDER_DUAL) || (RELAY_PROVIDER == RELAY_PROVIDER_STM) || (RELAY_PROVIDER == RELAY_PROVIDER_NUVOTON)
+    //#if (RF_SUPPORT && !RFB_DIRECT) || (RELAY_PROVIDER == RELAY_PROVIDER_DUAL) || (RELAY_PROVIDER == RELAY_PROVIDER_STM)
         Serial.begin(SERIAL_BAUDRATE);
     #endif
 

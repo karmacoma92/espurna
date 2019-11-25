@@ -69,7 +69,7 @@
 
 #elif defined(ESPURNA_BASE)
 
-    // This is a special device with no specific hardware 
+    // This is a special device with no specific hardware
     // with the basics to easily upgrade it to a device-specific image
 
     // Info
@@ -187,6 +187,30 @@
 
     #define DHT_SUPPORT         1
     #define DHT_PIN             12
+
+//reeopp
+  #elif defined(WEMOS_D1_MINI_H)
+
+    // Info
+    #define MANUFACTURER        "WEMOS"
+    #define DEVICE              "D1_MINI_H"
+
+    // Buttons
+    // No buttons on the D1 MINI alone, but defining it without adding a button doesn't create problems
+    #define BUTTON1_PIN         0   // Connect a pushbutton between D3 and GND,
+                                    // it's the same as using a Wemos one button shield
+    #define BUTTON1_MODE        BUTTON_PUSHBUTTON | BUTTON_DEFAULT_HIGH
+    #define BUTTON1_RELAY       1
+
+    // LEDs
+    #define LED1_PIN            2
+    #define LED1_PIN_INVERSE    1
+
+  //    #define SENSOR_SUPPORT      1
+    #define ANALOGH_SUPPORT     1
+
+  //        #define I2C_SDA_PIN         4  // D2
+  //        #define I2C_SCL_PIN         5  // D1
 
 // -----------------------------------------------------------------------------
 // ESPurna
@@ -402,6 +426,44 @@
 
     //#define I2C_SDA_PIN         4
     //#define I2C_SCL_PIN         14
+
+//reeopp
+#elif defined(ITEAD_SONOFF_TH_MOD)
+
+    // Info
+    #define MANUFACTURER        "ITEAD"
+    #define DEVICE              "SONOFF_TH_MOD"
+
+    // Buttons
+    #define BUTTON1_PIN         0
+    #define BUTTON1_MODE        BUTTON_PUSHBUTTON | BUTTON_DEFAULT_HIGH
+    #define BUTTON1_RELAY       1
+
+    // Relays
+    #define RELAY1_PIN          12
+    #define RELAY1_TYPE         RELAY_TYPE_NORMAL
+
+    // LEDs
+    #define LED1_PIN            13
+    #define LED1_PIN_INVERSE    1
+
+    // Jack is connected to GPIO14 (and with a small hack to GPIO4)
+    #ifndef DALLAS_SUPPORT
+    #define DALLAS_SUPPORT      1
+    #endif
+    #define DALLAS_PIN          14
+
+    #ifndef DHT_SUPPORT
+    #define DHT_SUPPORT         1
+    #endif
+    #define DHT_PIN             14
+
+    #ifndef OLED_SUPPORT
+    #define OLED_SUPPORT         1
+    #endif
+    //#define DHT_PIN             14
+    #define I2C_SDA_PIN         4
+    #define I2C_SCL_PIN         14
 
 #elif defined(ITEAD_SONOFF_SV)
 
@@ -2109,6 +2171,30 @@
     // Remove UART noise on serial line
     #define DEBUG_SERIAL_SUPPORT    0
 
+//reeopp
+// -----------------------------------------------------------------------------
+// NUVOTON 2CH RELAY
+// -----------------------------------------------------------------------------
+
+#elif defined(NUVOTON_2CH_RELAY)
+
+    // Info
+    #define MANUFACTURER            "LCTech"
+    #define DEVICE                  "2CH Relay"
+
+    // Relays
+    #define DUMMY_RELAY_COUNT       2
+    #define RELAY_PROVIDER          RELAY_PROVIDER_NUVOTON
+
+    // Remove UART noise on serial line
+    #define DEBUG_SERIAL_SUPPORT    0
+
+    // LEDs
+    #define LED1_PIN                 1
+    #define LED1_MODE                LED_MODE_RELAY
+    #define LED1_PIN_INVERSE         1
+    #define LED1_RELAY               1
+
 // -----------------------------------------------------------------------------
 // Tonbux Powerstrip02
 // -----------------------------------------------------------------------------
@@ -3236,7 +3322,7 @@
     #define RELAY1_TYPE         RELAY_TYPE_NORMAL
     #define RELAY2_PIN          5
     #define RELAY2_TYPE         RELAY_TYPE_NORMAL
-    
+
  #elif defined(ALLTERCO_SHELLY1PM)
     // Info
     #define MANUFACTURER        "ALLTERCO"
@@ -3275,9 +3361,9 @@
     //Temperature
      #define NTC_SUPPORT        1
      #define SENSOR_SUPPORT     1
-     #define NTC_BETA           3350    
-     #define NTC_R_UP           10000   
-     #define NTC_R_DOWN         0       
+     #define NTC_BETA           3350
+     #define NTC_R_UP           10000
+     #define NTC_R_DOWN         0
      #define NTC_R0             8000
 
  #elif defined(ALLTERCO_SHELLY25)
@@ -3313,16 +3399,16 @@
     //Temperature
      #define NTC_SUPPORT        1
      #define SENSOR_SUPPORT     1
-     #define NTC_BETA           3350    
-     #define NTC_R_UP           10000   
-     #define NTC_R_DOWN         0       
-     #define NTC_R0             8000 
+     #define NTC_BETA           3350
+     #define NTC_R_UP           10000
+     #define NTC_R_DOWN         0
+     #define NTC_R0             8000
 
     //Current
     #define ADE7953_SUPPORT     1
     #define I2C_SDA_PIN         12
     #define I2C_SCL_PIN         14
- 
+
 // -----------------------------------------------------------------------------
 
 #elif defined(LOHAS_9W)
@@ -3583,9 +3669,9 @@
 
     // Relays
     #define RELAY1_PIN          15
-    #define RELAY1_TYPE         RELAY_TYPE_NORMAL 
+    #define RELAY1_TYPE         RELAY_TYPE_NORMAL
 
-    // Light RGBW 
+    // Light RGBW
     #define RELAY_PROVIDER      RELAY_PROVIDER_LIGHT
     #define LIGHT_PROVIDER      LIGHT_PROVIDER_DIMMER
     #define DUMMY_RELAY_COUNT   1
@@ -3598,8 +3684,8 @@
     #define LIGHT_CH1_INVERSE   0
     #define LIGHT_CH2_INVERSE   0
     #define LIGHT_CH3_INVERSE   0
-    #define LIGHT_CH4_INVERSE   0	
-    
+    #define LIGHT_CH4_INVERSE   0
+
 // ----------------------------------------------------------------------------------------
 // Smart life Mini Smart Socket is similar Homecube 16A but some GPIOs differ
 // https://www.ebay.de/itm/Smart-Steckdose-WIFI-WLAN-Amazon-Alexa-Fernbedienung-Home-Socket-Zeitschaltuh-DE/123352026749?hash=item1cb85a8e7d:g:IasAAOSwk6dbj390
@@ -3807,7 +3893,7 @@
     #define LED1_PIN            4  // 4 blue led
     #define LED1_MODE           LED_MODE_WIFI
     #define LED1_PIN_INVERSE    1
-    
+
     #define LED2_PIN            5  // 5 red led
     #define LED2_MODE           LED_MODE_RELAY
     #define LED2_PIN_INVERSE    1
@@ -3912,7 +3998,7 @@
     #define DUMMY_RELAY_COUNT   0
 
 // -----------------------------------------------------------------------------
-// Etekcity ESW01-USA 
+// Etekcity ESW01-USA
 // https://www.amazon.com/Etekcity-Voltson-Outlet-Monitoring-Required/dp/B01M3MYIFS
 // -----------------------------------------------------------------------------
 
@@ -3934,7 +4020,7 @@
     // LEDs
     // Blue
     #define LED1_PIN                    5
-    #define LED1_PIN_INVERSE            0    
+    #define LED1_PIN_INVERSE            0
     #define LED1_MODE                   LED_MODE_WIFI
     // Yellow
     #define LED2_PIN                    16
@@ -4062,4 +4148,3 @@
     #error "UNSUPPORTED HARDWARE!!"
 
 #endif
-

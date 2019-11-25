@@ -201,7 +201,22 @@ class CSE7766Sensor : public BaseSensor {
             return checksum == _data[23];
         }
 
+        //reeopp
+        // #if SENSOR_DEBUG
+        //   DEBUG_MSG(("[CSE7766] CSE7766 Here starts _process:\n"), String(_data[0],4).c_str());
+        // #endif
+        // #if SENSOR_DEBUG
+        //     DEBUG_MSG("[CSE7766] CSE7766 _process: ");
+        //     for (byte i=0; i<24; i++) DEBUG_MSG("%02X ", _data[i]);
+        //     DEBUG_MSG("\n");
+        // #endif
+
+
         void _process() {
+
+            //reeopp
+            // 55 5A 02 DB 40 00 03 3D 00 3F 7A 00 00 00 50 6D D8 22 BF 20 41 00 00 EB
+            //
 
             // Sample data:
             // 55 5A 02 E9 50 00 03 31 00 3E 9E 00 0D 30 4F 44 F8 00 12 65 F1 81 76 72 (w/ load)
@@ -242,6 +257,8 @@ class CSE7766Sensor : public BaseSensor {
                 return;
             }
 
+            //reeopp
+            // 55 5A 02 DB 40 00 03 3D 00 3F 7A 00 00 00 50 6D D8 22 BF 20 41 00 00 EB
             // Calibration coefficients
             unsigned long _coefV = (_data[2]  << 16 | _data[3]  << 8 | _data[4] );              // 190770
             unsigned long _coefC = (_data[8]  << 16 | _data[9]  << 8 | _data[10]);              // 16030
@@ -258,6 +275,8 @@ class CSE7766Sensor : public BaseSensor {
             }
 
             // Calculate power
+            //reeopp
+            DEBUG_MSG(("[CSE7766] Data[0] set to: %s \n"), String(_data[0],6).c_str());
             _active = 0;
             if ((adj & 0x10) == 0x10) {
                 if ((_data[0] & 0xF2) != 0xF2) {
@@ -265,6 +284,9 @@ class CSE7766Sensor : public BaseSensor {
                     _active = _ratioP * _coefP / power_cycle / CSE7766_V1R / CSE7766_V2R;       // 5195000 / 4709 = 1103.20
                 }
             }
+            //reeopp
+            DEBUG_MSG(("[CSE7766] Power set to: %s \n"), String(_active,6).c_str());
+
 
             // Calculate current
             _current = 0;
@@ -274,6 +296,8 @@ class CSE7766Sensor : public BaseSensor {
                     _current = _ratioC * _coefC / current_cycle / CSE7766_V1R;                  // 16030 / 3376 = 4.75
                 }
             }
+            //reeopp
+            DEBUG_MSG(("[CSE7766] Current set to: %s \n"), String(_current,6).c_str());
 
             // Calculate reactive power
             _reactive = 0;
@@ -337,6 +361,13 @@ class CSE7766Sensor : public BaseSensor {
                 }
 
             }
+
+            //reeopp
+            // #if SENSOR_DEBUG
+            //     DEBUG_MSG("[CSE7766] CSE7766: _process: ");
+            //     for (byte i=0; i<24; i++) DEBUG_MSG("%02X ", _data[i]);
+            //     DEBUG_MSG("\n");
+            // #endif
 
             // Process packet
             if (24 == index) {

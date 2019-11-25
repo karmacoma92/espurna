@@ -1,8 +1,8 @@
 // =============================================================================
 // SENSORS - General data
 // =============================================================================
-
-#define SENSOR_DEBUG                        0               // Debug sensors
+//reeopp
+#define SENSOR_DEBUG                        1               // Debug sensors
 
 #define SENSOR_READ_INTERVAL                6               // Read data from sensors every 6 seconds
 #define SENSOR_READ_MIN_INTERVAL            1               // Minimum read interval
@@ -117,6 +117,45 @@
 #define ANALOG_DECIMALS                  2
 #endif
 
+//reeopp
+//------------------------------------------------------------------------------
+// Analogh sensor
+// Enable support by passing ANALOGH_SUPPORT=1 and SENSOR_SUPPORT build flag
+//--------------------------------------------------------------------------------
+
+#ifndef ANALOGH_SUPPORT
+#define ANALOGH_SUPPORT                  0
+#endif
+
+#ifndef ANALOGH_SAMPLES
+#define ANALOGH_SAMPLES                  10      // Number of samples
+#endif
+
+#ifndef ANALOGH_DELAY
+#define ANALOGH_DELAY                    0       // Delay between samples in micros
+#endif
+
+//Use the following to perform scaling of raw analog values
+//   scaledRead = ( factor * rawRead ) + offset
+//   scaledRead = percentage - ()( factor * rawRead ) + offset)
+//Please take note that the offset is not affected by the scaling factor
+
+#ifndef ANALOGH_FACTOR
+#define ANALOGH_FACTOR                    0.1       // Multiply raw reading by this factor
+#endif
+
+#ifndef ANALOGH_OFFSET
+#define ANALOGH_OFFSET                    0.0       // Add this offset to *scaled* value
+#endif
+
+#ifndef ANALOGH_PERCENTAGE
+#define ANALOGH_PERCENTAGE                100.0       // Substract this offset to *scaled* value
+#endif
+
+// Round to this number of decimals
+#ifndef ANALOGH_DECIMALS
+#define ANALOGH_DECIMALS                  2
+#endif
 
 //------------------------------------------------------------------------------
 // BH1750
@@ -740,7 +779,7 @@
 // LDR sensor
 // Enable support by passing LDR_SUPPORT=1 build flag
 //------------------------------------------------------------------------------
- 
+
 #ifndef SENSOR_LUX_CORRECTION
 #define SENSOR_LUX_CORRECTION           0.0     // Offset correction
 #endif
@@ -748,35 +787,35 @@
 #ifndef LDR_SUPPORT
 #define LDR_SUPPORT                     0
 #endif
- 
+
 #ifndef LDR_SAMPLES
 #define LDR_SAMPLES                     10      // Number of samples
 #endif
- 
+
 #ifndef LDR_DELAY
 #define LDR_DELAY                       0       // Delay between samples in micros
 #endif
- 
+
 #ifndef LDR_TYPE
 #define LDR_TYPE                        LDR_GL5528
 #endif
- 
+
 #ifndef LDR_ON_GROUND
 #define LDR_ON_GROUND                   true
 #endif
- 
+
 #ifndef LDR_RESISTOR
 #define LDR_RESISTOR                    10000   // Resistance
 #endif
- 
+
 #ifndef LDR_MULTIPLICATION
 #define LDR_MULTIPLICATION              32017200
 #endif
- 
+
 #ifndef LDR_POWER
 #define LDR_POWER                       1.5832
 #endif
- 
+
 //------------------------------------------------------------------------------
 // MHZ19 CO2 sensor
 // Enable support by passing MHZ19_SUPPORT=1 build flag
@@ -1198,11 +1237,13 @@
 // =============================================================================
 // Sensor helpers configuration - can't move to dependencies.h
 // =============================================================================
+//reeopp ANALOGH
 
 #ifndef SENSOR_SUPPORT
 #define SENSOR_SUPPORT ( \
     AM2320_SUPPORT || \
     ANALOG_SUPPORT || \
+    ANALOGH_SUPPORT || \
     BH1750_SUPPORT || \
     BMP180_SUPPORT || \
     BMX280_SUPPORT || \
@@ -1301,6 +1342,11 @@
     #include "../sensors/AnalogSensor.h"
 #endif
 
+//reeopp
+#if ANALOGH_SUPPORT
+    #include "../sensors/HigrometerSensor.h"
+#endif
+
 #if BH1750_SUPPORT
     #include "../sensors/BH1750Sensor.h"
 #endif
@@ -1371,7 +1417,7 @@
 
 #if MAX6675_SUPPORT
     #include "../sensors/MAX6675Sensor.h"
-#endif 
+#endif
 
 #if MICS2710_SUPPORT
     #include "../sensors/MICS2710Sensor.h"

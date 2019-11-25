@@ -180,6 +180,10 @@ PROGMEM const char espurna_sensors[] =
     #if ANALOG_SUPPORT
         "ANALOG "
     #endif
+//reeopp
+    #if ANALOGH_SUPPORT
+        "HIGROMETER "
+    #endif
     #if BH1750_SUPPORT
         "BH1750 "
     #endif

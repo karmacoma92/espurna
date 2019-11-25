@@ -539,6 +539,20 @@ void _sensorLoad() {
     }
     #endif
 
+//reeopp
+    #if ANALOGH_SUPPORT
+    {
+        HigrometerSensor * sensor = new HigrometerSensor();
+        sensor->setSamples(ANALOGH_SAMPLES);
+        sensor->setDelay(ANALOGH_DELAY);
+        //CICM For analog scaling
+        sensor->setFactor(ANALOGH_FACTOR);
+        sensor->setOffset(ANALOGH_OFFSET);
+        sensor->setPercentage(ANALOGH_PERCENTAGE);
+        _sensors.push_back(sensor);
+    }
+    #endif
+
     #if BH1750_SUPPORT
     {
         BH1750Sensor * sensor = new BH1750Sensor();
@@ -1031,7 +1045,7 @@ void _sensorLoad() {
         _sensors.push_back(sensor);
     }
     #endif
-	
+
     #if T6613_SUPPORT
     {
         T6613Sensor * sensor = new T6613Sensor();
@@ -1807,7 +1821,7 @@ void sensorLoop() {
                 {
                     char buffer[64];
                     dtostrf(value_show, 1-sizeof(buffer), magnitude.decimals, buffer);
-            
+
                     SensorBroker::Publish(magnitudeTopic(magnitude.type), magnitude.global, value_show, buffer);
                 }
                 #endif

@@ -246,11 +246,44 @@ void _relayProviderStatus(unsigned char id, bool status) {
         Serial.write(status);
         Serial.write(0xA1 + status + id);
 
+        //reeopp
+        Serial.write('\n');
+        DEBUG_MSG(("[STM] Status: %s \n"), String(status).c_str());
+        DEBUG_MSG(("[STM] ID: %s \n"), String(id).c_str());
         // The serial init are not full recognized by relais board.
         // References: https://github.com/xoseperez/espurna/issues/1519 , https://github.com/xoseperez/espurna/issues/1130
         delay(100);
 
         Serial.flush();
+    #endif
+
+//reeopp
+    #if RELAY_PROVIDER == RELAY_PROVIDER_NUVOTON
+        //noInterrupts();
+        Serial.flush();
+        Serial.begin(SERIAL_BAUDRATE);
+        Serial.write(0x0a);
+        Serial.write(0x2b);
+        Serial.write(0x49);
+        Serial.write(0x50);
+        Serial.write(0x44);
+        Serial.write(0x2c);
+        Serial.write(0x30);
+        Serial.write(0x2c);
+        Serial.write(0x34);
+        Serial.write(0x3a);
+        ////DEBUG_MSG(("[NUVOTON] First Status: %s \n"), String(status).c_str());
+        ////DEBUG_MSG(("[NUVOTON] First ID: %s \n"), String(id).c_str());
+        Serial.write(0xA0);
+        Serial.write(id + 1);
+        Serial.write(status);
+        Serial.write(0xA1 + status + id);
+        Serial.write('\n');
+        DEBUG_MSG(("[NUVOTON] Status: %s \n"), String(status).c_str());
+        DEBUG_MSG(("[NUVOTON] ID: %s \n"), String(id).c_str());
+        delay(100);
+        Serial.flush();
+        //interrupts();
     #endif
 
     #if RELAY_PROVIDER == RELAY_PROVIDER_LIGHT
@@ -785,7 +818,9 @@ void _relayBoot() {
             ? _relays[i].delay_on
             : _relays[i].delay_off;
 
-        #if RELAY_PROVIDER == RELAY_PROVIDER_STM
+//reeopp
+//        #if RELAY_PROVIDER == RELAY_PROVIDER_STM
+        #if RELAY_PROVIDER == RELAY_PROVIDER_STM || RELAY_PROVIDER == RELAY_PROVIDER_NUVOTON
             // XXX hack for correctly restoring relay state on boot
             // because of broken stm relay firmware
             _relays[i].change_delay = 3000 + 1000 * i;

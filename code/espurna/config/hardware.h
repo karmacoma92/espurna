@@ -3046,6 +3046,48 @@
     #define DEBUG_SERIAL_SUPPORT        0
 
 // -----------------------------------------------------------------------------
+// Similar to both devices above but also with switchable USB ports
+// and other sensor (CSE7766).
+// the pin layout is different to the above two versions
+// BlitzWolf SHP5
+// -----------------------------------------------------------------------------
+#elif defined(BLITZWOLF_BWSHP5)
+
+    // Info
+    #define MANUFACTURER                "BLITZWOLF"
+    #define DEVICE                      "BWSHP5"
+
+    // Buttons
+    #define BUTTON1_PIN                 16
+    #define BUTTON1_MODE                BUTTON_PUSHBUTTON | BUTTON_DEFAULT_HIGH
+    #define BUTTON1_RELAY               1
+
+    // Relays
+    // Power plug
+    #define RELAY1_PIN                  14
+    #define RELAY1_TYPE                 RELAY_TYPE_NORMAL
+    // USB
+    #define RELAY2_PIN                  5
+    #define RELAY2_TYPE                 RELAY_TYPE_NORMAL
+
+    // LEDs
+    #define LED1_PIN                    2
+    #define LED1_PIN_INVERSE            1
+    #define LED2_PIN                    0
+    #define LED2_PIN_INVERSE            1
+    #define LED2_MODE                   LED_MODE_FINDME
+    #define LED2_RELAY                  1
+
+    // Disable UART noise
+    #define DEBUG_SERIAL_SUPPORT        0
+
+    // CSE7766
+    #ifndef CSE7766_SUPPORT
+    #define CSE7766_SUPPORT     1
+    #endif
+    #define CSE7766_PIN         1
+
+// -----------------------------------------------------------------------------
 // Teckin SP21
 // -----------------------------------------------------------------------------
 
@@ -3323,7 +3365,7 @@
     #define RELAY2_PIN          5
     #define RELAY2_TYPE         RELAY_TYPE_NORMAL
 
- #elif defined(ALLTERCO_SHELLY1PM)
+#elif defined(ALLTERCO_SHELLY1PM)
     // Info
     #define MANUFACTURER        "ALLTERCO"
     #define DEVICE              "SHELLY1PM"
@@ -3366,7 +3408,7 @@
      #define NTC_R_DOWN         0
      #define NTC_R0             8000
 
- #elif defined(ALLTERCO_SHELLY25)
+#elif defined(ALLTERCO_SHELLY25)
     // Info
     #define MANUFACTURER        "ALLTERCO"
     #define DEVICE              "SHELLY25"
@@ -4140,7 +4182,52 @@
     #define LIGHT_CH3_INVERSE   0
     #define LIGHT_CH4_INVERSE   0
 
+// -----------------------------------------------------------------------------
+// Hykker Power Plug (Smart Home Series) available in Jerónimo Martins Polska (Biedronka)
+// https://www.hykker.com/akcesoria/gniazdo-wi-fi-z-licznikiem-energii/
+// Reflashing from original Tuya firmware
+// to thirdparty firmware like espurna by:
+// https://github.com/ct-Open-Source/tuya-convert
+// -----------------------------------------------------------------------------
 
+#elif defined(HYKKER_SMART_HOME_POWER_PLUG)
+
+    // Info
+    #define MANUFACTURER                "HYKKER"
+    #define DEVICE                      "SMART_HOME_POWER_PLUG"
+
+    // Buttons
+    #define BUTTON1_PIN                 0
+    #define BUTTON1_MODE                BUTTON_PUSHBUTTON | BUTTON_DEFAULT_HIGH
+    #define BUTTON1_RELAY               1
+
+    // Relays
+    #define RELAY1_PIN                  14
+    #define RELAY1_TYPE                 RELAY_TYPE_NORMAL
+
+    // LED
+    // Red
+    #define LED1_PIN                    13
+    #define LED1_MODE                   LED_MODE_WIFI
+    #define LED1_PIN_INVERSE            1
+    // Blue connected to relay
+
+    // HLW8012
+    #ifndef HLW8012_SUPPORT
+    #define HLW8012_SUPPORT             1
+    #endif
+    #define HLW8012_SEL_PIN             12
+    #define HLW8012_CF1_PIN             5
+    #define HLW8012_CF_PIN              4
+
+    #define HLW8012_SEL_CURRENT         LOW
+    #define HLW8012_CURRENT_RATIO       25740
+    #define HLW8012_VOLTAGE_RATIO       282060
+    #define HLW8012_POWER_RATIO         3414290
+    #define HLW8012_INTERRUPT_ON        FALLING
+
+    #define SENSOR_ENERGY_UNITS         ENERGY_KWH
+    #define SENSOR_POWER_UNITS          POWER_WATTS
 // -----------------------------------------------------------------------------
 
 #else

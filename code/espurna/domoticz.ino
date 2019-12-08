@@ -41,12 +41,14 @@ void _domoticzMqttSubscribe(bool value) {
 }
 
 bool _domoticzStatus(unsigned char id) {
-    if (id >= _dcz_relay_state.size()) return false;
+    //reeopp
+    //if (id >= _dcz_relay_state.size()) return false;
     return _dcz_relay_state[id];
 }
 
 void _domoticzStatus(unsigned char id, bool status) {
-    if (id >= _dcz_relay_state.size()) return;
+    //reeopp
+    //if (id >= _dcz_relay_state.size()) return;
     _dcz_relay_state[id] = status;
     relayStatus(id, status);
 }

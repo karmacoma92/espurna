@@ -946,6 +946,22 @@ void _sensorLoad() {
     }
     #endif
 
+//reeopp
+    #if MICS5524_SUPPORT
+    {
+        MICS5524Sensor * sensor = new MICS5524Sensor();
+        //sensor->setSamples(MICS5524_SAMPLES);
+        //sensor->setDelay(MICS5524_DELAY);
+        //CICM For analog scaling
+        //sensor->setFactor(MICS5524_FACTOR);
+        //sensor->setOffset(MICS5524_OFFSET);
+        //sensor->setPercentage(MICS5524_PERCENTAGE);
+        sensor->setAnalogGPIO(MICS5524_RED_PIN);
+        sensor->setRL(MICS5524_RL);
+        _sensors.push_back(sensor);
+    }
+    #endif
+
     #if NTC_SUPPORT
     {
         NTCSensor * sensor = new NTCSensor();

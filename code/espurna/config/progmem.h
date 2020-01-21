@@ -241,6 +241,9 @@ PROGMEM const char espurna_sensors[] =
     #if MICS5525_SUPPORT
         "MICS5525 "
     #endif
+    #if MICS5524_SUPPORT
+        "MICS5524 "
+    #endif
     #if NTC_SUPPORT
         "NTC "
     #endif

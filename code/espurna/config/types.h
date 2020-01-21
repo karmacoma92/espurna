@@ -309,6 +309,8 @@
 #define SENSOR_LDR_ID               36
 #define SENSOR_ADE7953_ID           37
 #define SENSOR_T6613_ID             38
+//reeopp
+#define SENSOR_MICS5524_ID          39
 
 //--------------------------------------------------------------------------------
 // Magnitudes
@@ -376,4 +378,3 @@
 #define SECURE_CLIENT_CHECK_NONE          0 // !!! INSECURE CONNECTION !!!
 #define SECURE_CLIENT_CHECK_FINGERPRINT   1 // legacy fingerprint validation
 #define SECURE_CLIENT_CHECK_CA            2 // set trust anchor from PROGMEM CA certificate
-

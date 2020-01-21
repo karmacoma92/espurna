@@ -873,6 +873,48 @@
                                                 // Typical value as per datasheet
 
 //------------------------------------------------------------------------------
+// MICS-5524 (and MICS-4514) CO sensor
+// Enable support by passing MICS5524_SUPPORT=1 build flag
+//--------------------------------------------------------------------------------
+
+#ifndef MICS5524_SUPPORT
+#define MICS5524_SUPPORT                  0
+#endif
+
+// #ifndef MICS5524_SAMPLES
+// #define MICS5524_SAMPLES                  10      // Number of samples
+// #endif
+//
+// #ifndef MICS5524_DELAY
+// #define MICS5524_DELAY                    0       // Delay between samples in micros
+// #endif
+//
+// //Use the following to perform scaling of raw analog values
+// //   scaledRead = ( factor * rawRead ) + offset
+// //
+// //Please take note that the offset is not affected by the scaling factor
+//
+// #ifndef MICS5524_FACTOR
+// #define MICS5524_FACTOR                    1.0       // Multiply raw reading by this factor
+// #endif
+//
+// #ifndef MICS5524_OFFSET
+// #define MICS5524_OFFSET                    0.0       // Add this offset to *scaled* value
+// #endif
+//
+// // Round to this number of decimals
+// #ifndef MICS5524_DECIMALS
+// #define MICS5524_DECIMALS                  2
+// #endif
+
+#ifndef MICS5524_RED_PIN
+#define MICS5524_RED_PIN                0
+#endif
+
+#define MICS5524_RL                     10000   // RL, load resistor
+#define MICS5524_R0                     100000  // R0 calibration value for NO2 sensor,
+                                                // Typical value as per datasheet
+//------------------------------------------------------------------------------
 // NTC sensor
 // Enable support by passing NTC_SUPPORT=1 build flag
 //--------------------------------------------------------------------------------
@@ -1237,7 +1279,7 @@
 // =============================================================================
 // Sensor helpers configuration - can't move to dependencies.h
 // =============================================================================
-//reeopp ANALOGH
+//reeopp ANALOGH MICS5524
 
 #ifndef SENSOR_SUPPORT
 #define SENSOR_SUPPORT ( \
@@ -1263,6 +1305,7 @@
     LDR_SUPPORT || \
     MAX6675_SUPPORT || \
     MICS2710_SUPPORT || \
+    MICS5524_SUPPORT || \
     MICS5525_SUPPORT || \
     MHZ19_SUPPORT || \
     NTC_SUPPORT || \
@@ -1426,6 +1469,10 @@
 
 #if MICS5525_SUPPORT
     #include "../sensors/MICS5525Sensor.h"
+#endif
+
+#if MICS5524_SUPPORT
+    #include "../sensors/MICS5524Sensor.h"
 #endif
 
 #if MHZ19_SUPPORT

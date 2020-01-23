@@ -10,6 +10,7 @@
 
 #include "Arduino.h"
 #include "BaseSensor.h"
+#include "../debug.h"
 
 #include <SoftwareSerial.h>
 
@@ -276,7 +277,9 @@ class CSE7766Sensor : public BaseSensor {
 
             // Calculate power
             //reeopp
-            DEBUG_MSG(("[CSE7766] Data[0] set to: %s \n"), String(_data[0],6).c_str());
+            #if SENSOR_DEBUG
+              DEBUG_MSG(("[CSE7766] Data[0] set to: %s \n"), String(_data[0],6).c_str());
+            #endif
             _active = 0;
             if ((adj & 0x10) == 0x10) {
                 if ((_data[0] & 0xF2) != 0xF2) {
@@ -285,7 +288,9 @@ class CSE7766Sensor : public BaseSensor {
                 }
             }
             //reeopp
+            #if SENSOR_DEBUG
             DEBUG_MSG(("[CSE7766] Power set to: %s \n"), String(_active,6).c_str());
+            #endif
 
 
             // Calculate current
@@ -297,7 +302,9 @@ class CSE7766Sensor : public BaseSensor {
                 }
             }
             //reeopp
+            #if SENSOR_DEBUG
             DEBUG_MSG(("[CSE7766] Current set to: %s \n"), String(_current,6).c_str());
+            #endif
 
             // Calculate reactive power
             _reactive = 0;

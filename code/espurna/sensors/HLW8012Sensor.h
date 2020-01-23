@@ -10,6 +10,7 @@
 #include "Arduino.h"
 #include "BaseSensor.h"
 #include <HLW8012.h>
+#include "../debug.h"
 
 class HLW8012Sensor : public BaseSensor {
 

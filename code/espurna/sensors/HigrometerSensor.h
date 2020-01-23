@@ -13,6 +13,7 @@
 
 #include "Arduino.h"
 #include "BaseSensor.h"
+#include "../debug.h"
 
 class HigrometerSensor : public BaseSensor {
 
@@ -36,17 +37,23 @@ class HigrometerSensor : public BaseSensor {
         }
 
         void setFactor(double factor) {
-            DEBUG_MSG(("[H_SENSOR] Factor set to: %s \n"), String(factor,6).c_str());
+            #if SENSOR_DEBUG
+              DEBUG_MSG(("[H_SENSOR] Factor set to: %s \n"), String(factor,6).c_str());
+            #endif
             _factor = factor;
         }
 
         void setOffset(double offset) {
-            DEBUG_MSG(("[H_SENSOR] Offset set to: %s \n"), String(offset,6).c_str());
+            #if SENSOR_DEBUG
+              DEBUG_MSG(("[H_SENSOR] Offset set to: %s \n"), String(offset,6).c_str());
+            #endif
             _offset = offset;
         }
 
         void setPercentage(double percentage) {
-            DEBUG_MSG(("[H_SENSOR] Percentage set to: %s \n"), String(percentage,6).c_str());
+            #if SENSOR_DEBUG
+              DEBUG_MSG(("[H_SENSOR] Percentage set to: %s \n"), String(percentage,6).c_str());
+            #endif
             _percentage = percentage;
         }
         // ---------------------------------------------------------------------
@@ -132,12 +139,14 @@ class HigrometerSensor : public BaseSensor {
           double scaledValue;
           //const double _percentage = 100;
           // Debugging doubles to string
-          DEBUG_MSG(("[H_SENSOR] Started standard read, factor: %s , offset: %s, percentage: %s, decimals: %d \n"), String(_factor).c_str(), String(_offset).c_str(), String(_percentage).c_str(), ANALOG_DECIMALS);
           rawValue = _rawRead();
-          DEBUG_MSG(("[H_SENSOR] Raw read received: %d \n"), rawValue);
           //scaledValue = _offset - _factor*rawValue;
           scaledValue = _percentage - (_factor*rawValue  + _offset);
-          DEBUG_MSG(("[H_SENSOR] Scaled value result: %s \n"), String(scaledValue).c_str());
+          #if SENSOR_DEBUG
+            DEBUG_MSG(("[H_SENSOR] Started standard read, factor: %s , offset: %s, percentage: %s, decimals: %d \n"), String(_factor).c_str(), String(_offset).c_str(), String(_percentage).c_str(), ANALOG_DECIMALS);
+            DEBUG_MSG(("[H_SENSOR] Raw read received: %d \n"), rawValue);
+            DEBUG_MSG(("[H_SENSOR] Scaled value result: %s \n"), String(scaledValue).c_str());
+          #endif
           return scaledValue;
         }
 

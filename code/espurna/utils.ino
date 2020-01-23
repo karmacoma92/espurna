@@ -8,6 +8,7 @@ Copyright (C) 2017-2019 by Xose Pérez <xose dot perez at gmail dot com>
 
 #include "utils.h"
 #include "libs/HeapStats.h"
+#include <TimeLib.h>
 
 #include <Ticker.h>
 #include <limits>

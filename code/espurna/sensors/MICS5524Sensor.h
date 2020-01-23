@@ -13,6 +13,7 @@
 
 #include "Arduino.h"
 #include "BaseSensor.h"
+#include "../debug.h"
 
 extern "C" {
     #include "../libs/fs_math.h"

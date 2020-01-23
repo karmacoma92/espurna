@@ -14,6 +14,7 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 #include "filters/MedianFilter.h"
 #include "filters/MovingAverageFilter.h"
 #include "sensors/BaseSensor.h"
+//#include "config/sensors.h"
 
 #include <float.h>
 

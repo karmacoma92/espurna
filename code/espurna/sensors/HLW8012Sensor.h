@@ -7,10 +7,12 @@
 
 #pragma once
 
-#include "Arduino.h"
-#include "BaseSensor.h"
+#include <Arduino.h>
 #include <HLW8012.h>
 #include "../debug.h"
+
+#include "../debug.h"
+#include "BaseSensor.h"
 
 class HLW8012Sensor : public BaseSensor {
 

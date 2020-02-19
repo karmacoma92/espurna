@@ -6,15 +6,17 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 
 */
 
-#include <EEPROM_Rotate.h>
 #include <Ticker.h>
 #include <ArduinoJson.h>
 #include <vector>
 #include <functional>
 #include <bitset>
 
-#include "relay.h"
 #include "broker.h"
+#include "storage_eeprom.h"
+#include "settings.h"
+#include "mqtt.h"
+#include "relay.h"
 #include "tuya.h"
 #include "ws.h"
 
@@ -332,7 +334,7 @@ void _relayProviderStatus(unsigned char id, bool status) {
         } else if (_relays[id].type == RELAY_TYPE_INVERSE) {
             digitalWrite(_relays[id].pin, !status);
         } else if (_relays[id].type == RELAY_TYPE_LATCHED || _relays[id].type == RELAY_TYPE_LATCHED_INVERSE) {
-            bool pulse = RELAY_TYPE_LATCHED ? HIGH : LOW;
+            bool pulse = (_relays[id].type == RELAY_TYPE_LATCHED) ? HIGH : LOW;
             digitalWrite(_relays[id].pin, !pulse);
             if (GPIO_NONE != _relays[id].reset_pin) digitalWrite(_relays[id].reset_pin, !pulse);
             if (status || (GPIO_NONE == _relays[id].reset_pin)) {
@@ -512,6 +514,7 @@ void relayPulse(unsigned char id) {
 
 bool relayStatus(unsigned char id, bool status, bool report, bool group_report) {
 
+    if (id == RELAY_NONE) return false;
     if (id >= _relays.size()) return false;
 
     if (!_relayStatusLock(id, status)) {

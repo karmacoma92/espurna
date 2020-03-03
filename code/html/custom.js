@@ -53,7 +53,7 @@ function sensorName(id) {
         "Events", "PMSX003", "BMX280", "MHZ19", "SI7021",
         "SHT3X I2C", "BH1750", "PZEM004T", "AM2320 I2C", "GUVAS12SD",
         "T6613", "TMP3X", "Sonar", "SenseAir", "GeigerTicks", "GeigerCPM",
-        "NTC", "SDS011", "MICS2710", "MICS5525", "VL53L1X", "VEML6075",
+        "NTC", "SDS011", "MICS2710", "MICS5525", "MICS5524", "VL53L1X", "VEML6075",
         "EZOPH"
     ];
     if (1 <= id && id <= names.length) {

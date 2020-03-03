@@ -4,6 +4,7 @@
 
 #pragma once
 
+//reeopp
 #ifndef SENSOR_DEBUG
 #define SENSOR_DEBUG                        1               // Debug sensors
 #endif
@@ -139,7 +140,7 @@
 
 // Round to this number of decimals
 #ifndef ANALOG_DECIMALS
-#define ANALOG_DECIMALS                  2
+#define ANALOG_DECIMALS                  0
 #endif
 
 //reeopp
@@ -179,7 +180,7 @@
 
 // Round to this number of decimals
 #ifndef ANALOGH_DECIMALS
-#define ANALOGH_DECIMALS                  2
+#define ANALOGH_DECIMALS                  0
 #endif
 
 //------------------------------------------------------------------------------
@@ -1385,12 +1386,15 @@
 #endif
 
 // Can't have ADC reading something else
+//reeopp ANALOGH MICS5524
 #if ( ANALOG_SUPPORT || \
+    ANALOGH_SUPPORT || \
     EMON_ANALOG_SUPPORT || \
     GUVAS12SD_SUPPORT || \
     LDR_SUPPORT || \
     MICS2710_SUPPORT || \
     MICS5525_SUPPORT || \
+    MICS5524_SUPPORT || \
     NTC_SUPPORT || \
     TMP3X_SUPPORT \
 )

@@ -9,7 +9,6 @@
 
 #include <Arduino.h>
 #include <HLW8012.h>
-#include "../debug.h"
 
 #include "../debug.h"
 #include "BaseSensor.h"

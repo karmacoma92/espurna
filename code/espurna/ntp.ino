@@ -16,6 +16,7 @@ Copyright (C) 2019 by Maxim Prokhorov <prokhorov dot max at outlook dot com>
 #include <Arduino.h>
 #include <coredecls.h>
 #include <Ticker.h>
+//#include </home/oscar/.platformio/packages/framework-arduinoespressif8266@2.20502.0/libraries/Ticker/Ticker.h>
 
 static_assert(
     (SNTP_SERVER_DNS == 1),

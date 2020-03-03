@@ -246,6 +246,12 @@ void _domoticzConfigure() {
 template<typename T> void domoticzSend(const char * key, T nvalue, const char * svalue) {
     if (!_dcz_enabled) return;
     const auto idx = getSetting<int>(key, 0);
+    //reeopp
+    // if (idx > 0) {
+    //     char payload[128];
+    //     snprintf(payload, sizeof(payload), "{\"idx\": %d, \"nvalue\": %s, \"svalue\": \"%s\"}", idx, svalue, String(nvalue).c_str());
+    //     mqttSendRaw(getSetting<String>("dczTopicIn", DOMOTICZ_IN_TOPIC).c_str(), payload);
+    // }
     if (idx > 0) {
         char payload[128];
         snprintf(payload, sizeof(payload), "{\"idx\": %d, \"nvalue\": %s, \"svalue\": \"%s\"}", idx, String(nvalue).c_str(), svalue);

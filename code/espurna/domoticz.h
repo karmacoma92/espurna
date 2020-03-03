@@ -18,6 +18,8 @@ template<typename T>
 void domoticzSend(const char * key, T value);
 template<typename T>
 void domoticzSend(const char * key, T nvalue, const char * svalue);
+//const char * svalue, T nvalue);
+//T nvalue, const char * svalue);
 
 void domoticzSendRelay(unsigned char relayID, bool status);
 void domoticzSendRelays();

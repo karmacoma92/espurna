@@ -21,8 +21,8 @@ struct NtpCalendarWeekday;
 #else // POSIX time functions + configTime(...)
 
 #include <lwip/apps/sntp.h>
-//#include <TZ.h>
-#include </home/oscar/.platformio/packages/framework-arduinoespressif8266/cores/esp8266/TZ.h>
+#include <TZ.h>
+//#include </home/oscar/.platformio/packages/framework-arduinoespressif8266/cores/esp8266/TZ.h>
 //#include "/home/oscar/.platformio/packages/framework-arduinoespressif8266@2.20602.191128/cores/esp8266/TZ.h"
 #include "ntp_timelib.h"
 

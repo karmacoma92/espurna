@@ -82,7 +82,7 @@ PROGMEM const char* const magnitude_topics[] = {
 };
 
 PROGMEM const char magnitude_empty[] = "";
-PROGMEM const char magnitude_celsius[] =  "C";
+PROGMEM const char magnitude_celsius[] =  "°C";
 PROGMEM const char magnitude_fahrenheit[] =  "°F";
 PROGMEM const char magnitude_percentage[] = "%";
 PROGMEM const char magnitude_hectopascals[] = "hPa";

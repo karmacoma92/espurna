@@ -352,7 +352,7 @@ void _mqttConfigure() {
 
         const auto qos = getSetting("mqttQoS", MQTT_QOS);
         const bool retain = getSetting("mqttRetain", 1 == MQTT_RETAIN);
-        
+
         // Note: MQTT spec defines this as 2 bytes
         const auto keepalive = constrain(
             getSetting("mqttKeep", MQTT_KEEPALIVE),
@@ -975,6 +975,12 @@ void mqttSetup() {
             _mqttOnDisconnect();
         });
         _mqtt.onMessage([](char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+          //reeopp
+          DEBUG_MSG_P(PSTR("[MQTT] %s pkt:%u:%c:%c msg:%u:%u:%u\n"),
+              topic,
+              properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
+              len, index, total
+          );
             _mqttOnMessage(topic, payload, len);
         });
         _mqtt.onSubscribe([](uint16_t packetId, uint8_t qos) {

@@ -90,6 +90,10 @@ PROGMEM const char magnitude_amperes[] = "A";
 PROGMEM const char magnitude_volts[] = "V";
 PROGMEM const char magnitude_watts[] = "W";
 PROGMEM const char magnitude_kw[] = "kW";
+PROGMEM const char magnitude_VA[] = "VA";
+PROGMEM const char magnitude_kVA[] = "kVA";
+PROGMEM const char magnitude_VAR[] = "VAR";
+PROGMEM const char magnitude_kVAR[] = "kVAR";
 PROGMEM const char magnitude_joules[] = "J";
 PROGMEM const char magnitude_kwh[] = "kWh";
 PROGMEM const char magnitude_ugm3[] = "µg/m³";
@@ -105,7 +109,7 @@ PROGMEM const char magnitude_resistance[] = "ohm";
 PROGMEM const char* const magnitude_units[] = {
     magnitude_empty, magnitude_celsius, magnitude_percentage,
     magnitude_hectopascals, magnitude_amperes, magnitude_volts,
-    magnitude_watts, magnitude_watts, magnitude_watts,
+    magnitude_watts, magnitude_VA, magnitude_VAR,
     magnitude_percentage, magnitude_joules, magnitude_joules,
     magnitude_empty, magnitude_empty, magnitude_empty,
     magnitude_ugm3, magnitude_ugm3, magnitude_ugm3,
@@ -1996,9 +2000,14 @@ String magnitudeUnits(unsigned char type) {
             (_sensor_energy_units == ENERGY_KWH)) {
             strncpy_P(buffer, magnitude_kwh, sizeof(buffer));
         } else if (
-            (type == MAGNITUDE_POWER_ACTIVE || type == MAGNITUDE_POWER_APPARENT || type == MAGNITUDE_POWER_REACTIVE) &&
-            (_sensor_power_units == POWER_KILOWATTS)) {
+            (type == MAGNITUDE_POWER_ACTIVE ) && (_sensor_power_units == POWER_KILOWATTS)) {
             strncpy_P(buffer, magnitude_kw, sizeof(buffer));
+	} else if (
+	    (type == MAGNITUDE_POWER_APPARENT ) && (_sensor_power_units == POWER_KILOWATTS )) {
+	     strncpy_P(buffer, magnitude_kVA, sizeof(buffer));
+	} else if (
+	    (type == MAGNITUDE_POWER_REACTIVE)  && (_sensor_power_units == POWER_KILOWATTS )) {
+	     strncpy_P(buffer, magnitude_kVAR, sizeof(buffer));
         } else {
             strncpy_P(buffer, magnitude_units[type], sizeof(buffer));
         }
@@ -2082,7 +2091,7 @@ void sensorLoop() {
         _sensorPre();
 
         // Get the first relay state
-        #if SENSOR_POWER_CHECK_STATUS
+        #if RELAY_SUPPORT && SENSOR_POWER_CHECK_STATUS
             bool relay_off = (relayCount() == 1) && (relayStatus(0) == 0);
         #endif
 
@@ -2100,7 +2109,7 @@ void sensorLoop() {
                 value_raw = magnitude.sensor->value(magnitude.local);
 
                 // Completely remove spurious values if relay is OFF
-                #if SENSOR_POWER_CHECK_STATUS
+                #if RELAY_SUPPORT && SENSOR_POWER_CHECK_STATUS
                     if (relay_off) {
                         if (magnitude.type == MAGNITUDE_POWER_ACTIVE ||
                             magnitude.type == MAGNITUDE_POWER_REACTIVE ||

@@ -3329,6 +3329,52 @@
     #define HLW8012_INTERRUPT_ON        FALLING
 
 // -----------------------------------------------------------------------------
+// The Gosund WP3 is based on ESP8285, so 1 MB internal flash (DOUT required)
+// The module has no-connect:  TX, RX, RST, AD, GPIO5, (and GPIO0, 
+//     GPIO2 via test points on the back of the module)
+// and these are wired to devices:
+// GPIO4: /BTN
+// GPIO12: /LED red
+// GPIO13: /LED blue
+// GPIO14: RELAY
+// -----------------------------------------------------------------------------
+
+#elif defined(GOSUND_WP3)
+
+    // Info
+    #define MANUFACTURER                "GOSUND"
+    #define DEVICE                      "WP3"
+
+    // Buttons
+    #define BUTTON1_PIN                 4
+    #define BUTTON1_CONFIG              BUTTON_PUSHBUTTON | BUTTON_DEFAULT_HIGH
+    #define BUTTON1_RELAY               1
+    // the defaults are reasonable, but you can change them as desired
+    //#define BUTTON1_PRESS               BUTTON_ACTION_NONE
+    //#define BUTTON1_CLICK               BUTTON_ACTION_TOGGLE
+    //#define BUTTON1_DBLCLICK            BUTTON_ACTION_AP
+    //#define BUTTON1_LNGCLICK            BUTTON_ACTION_RESET
+    //#define BUTTON1_LNGLNGCLICK         BUTTON_ACTION_FACTORY
+
+    // Relays
+    #define RELAY1_PIN                  14
+    #define RELAY1_TYPE                 RELAY_TYPE_NORMAL
+
+    // LEDs
+
+    // LED1 (red) indicates on/off state; you could use LED_MODE_FOLLOW_INVERSE
+    // so that the LED lights the button when 'off' so it can be found easily.
+    #define LED1_PIN                    12
+    #define LED1_PIN_INVERSE            1
+    #define LED1_MODE                   LED_MODE_FOLLOW
+    #define LED1_RELAY                  1
+
+    // LED2 (blue) indicates wifi activity
+    #define LED2_PIN                    13
+    #define LED2_PIN_INVERSE            1
+    #define LED2_MODE                   LED_MODE_WIFI
+
+// -----------------------------------------------------------------------------
 // Several boards under different names uing a power chip labelled BL0937 or HJL-01
 // Also model number KS-602S
 // -----------------------------------------------------------------------------
@@ -4608,6 +4654,27 @@
     #define RELAY2_TYPE             RELAY_TYPE_NORMAL
     #define RELAY3_TYPE             RELAY_TYPE_NORMAL
     #define RELAY4_TYPE             RELAY_TYPE_NORMAL
+
+// -----------------------------------------------------------------------------
+// ESP-01 generic esp8266 board with 512 kB flash
+// -----------------------------------------------------------------------------
+
+#elif defined(GENERIC_ESP01_512KB)
+
+    // Info
+    #define MANUFACTURER        "GENERIC"
+    #define DEVICE              "ESP01_512KB"
+
+    // Relays
+    #define RELAY1_PIN          2
+    #ifndef RELAY1_TYPE
+    #define RELAY1_TYPE         RELAY_TYPE_NORMAL
+    #endif
+
+    // No need for OTA
+    #define OTA_WEB_SUPPORT          0
+    #define OTA_ARDUINOOTA_SUPPORT   0
+    #define OTA_CLIENT               OTA_CLIENT_NONE
 
 // -----------------------------------------------------------------------------
 

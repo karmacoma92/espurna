@@ -628,6 +628,14 @@ bool _mqttMaybeSkipRetained(char* topic) {
 // TODO: Current callback model does not allow to pass message length. Instead, implement a topic filter and record all subscriptions. That way we don't need to filter out events and could implement per-event callbacks.
 
 void _mqttOnMessageAsync(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
+
+//reeopp
+    DEBUG_MSG_P(PSTR("[MQTT] topic=%s mqtt:qos=%u:dup=%c:ret=%c msg:len=%u:idx=%u:total=%u\n"),
+        topic,
+        properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
+        len, index, total
+    );
+
     if (!len || (len > MQTT_BUFFER_MAX_SIZE) || (total > MQTT_BUFFER_MAX_SIZE)) return;
     if (_mqttMaybeSkipRetained(topic)) return;
 

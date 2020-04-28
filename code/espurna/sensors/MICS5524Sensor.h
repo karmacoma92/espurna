@@ -11,15 +11,16 @@
 // #undef ADC_MODE_VALUE
 // #define ADC_MODE_VALUE ADC_TOUT
 
-#include "Arduino.h"
-#include "BaseSensor.h"
+#include <Arduino.h>
+//#include "BaseSensor.h"
+#include "BaseAnalogSensor.h"
 #include "../debug.h"
 
 extern "C" {
     #include "../libs/fs_math.h"
 }
 
-class MICS5524Sensor : public BaseSensor {
+class MICS5524Sensor : public BaseAnalogSensor {
 
 public:
 
@@ -27,7 +28,7 @@ public:
     // Public
     // ---------------------------------------------------------------------
 
-    MICS5524Sensor(): BaseSensor() {
+    MICS5524Sensor() {
         _count = 2;
         _sensor_id = SENSOR_MICS5524_ID;
     }

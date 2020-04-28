@@ -630,11 +630,13 @@ bool _mqttMaybeSkipRetained(char* topic) {
 void _mqttOnMessageAsync(char* topic, char* payload, AsyncMqttClientMessageProperties properties, size_t len, size_t index, size_t total) {
 
 //reeopp
-    DEBUG_MSG_P(PSTR("[MQTT] topic=%s mqtt:qos=%u:dup=%c:ret=%c msg:len=%u:idx=%u:total=%u\n"),
-        topic,
-        properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
-        len, index, total
-    );
+    #if DEBUG_SUPPORT
+        DEBUG_MSG_P(PSTR("[MQTT] topic=%s mqtt:qos=%u:dup=%c:ret=%c msg:len=%u:idx=%u:total=%u\n"),
+          topic,
+          properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
+          len, index, total
+        );
+    #endif
 
     if (!len || (len > MQTT_BUFFER_MAX_SIZE) || (total > MQTT_BUFFER_MAX_SIZE)) return;
     if (_mqttMaybeSkipRetained(topic)) return;
@@ -1111,11 +1113,13 @@ void mqttSetup() {
 
         _mqtt.onMessageAdvanced([](MQTTClient *client, char topic[], char payload[], int length) {
             //reeopp
+            #if DEBUG_SUPPORT
             DEBUG_MSG_P(PSTR("[MQTT] %s pkt:%u:%c:%c msg:%u:%u:%u\n"),
                 topic,
                 properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
                 len, index, total
             );
+            #endif
             _mqttOnMessage(topic, payload, length);
         });
 
@@ -1123,11 +1127,13 @@ void mqttSetup() {
 
         _mqtt.setCallback([](char* topic, byte* payload, unsigned int length) {
             //reeopp
+            #if DEBUG_SUPPORT
             DEBUG_MSG_P(PSTR("[MQTT] %s pkt:%u:%c:%c msg:%u:%u:%u\n"),
                 topic,
                 properties.qos, (properties.dup ? 'y' : 'n'), (properties.retain ? 'y' : 'n'),
                 len, index, total
             );
+            #endif
             _mqttOnMessage(topic, (char *) payload, length);
         });
 

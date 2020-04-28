@@ -21,6 +21,7 @@ void domoticzSend(const char * key, T nvalue, const char * svalue);
 //const char * svalue, T nvalue);
 //T nvalue, const char * svalue);
 
+void domoticzSendMagnitude(unsigned char type, unsigned char index, double value, const char* buffer);
 void domoticzSendRelay(unsigned char relayID, bool status);
 void domoticzSendRelays();
 

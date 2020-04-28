@@ -1309,6 +1309,32 @@
 #endif
 
 // -----------------------------------------------------------------------------
+// ADE7953 Shelly Sensor
+// Enable support by passing ADE7953_SUPPORT=1 build flag
+// -----------------------------------------------------------------------------
+
+#ifndef ADE7953_SUPPORT
+#define ADE7953_SUPPORT                  0
+#endif
+
+#ifndef ADE7953_ADDRESS
+#define ADE7953_ADDRESS                  0x38
+#endif
+
+// -----------------------------------------------------------------------------
+// SI1145 UV Sensor over I2C
+// Enable support by passing SI1145_SUPPORT=1 build flag
+// -----------------------------------------------------------------------------
+
+#ifndef SI1145_SUPPORT
+#define SI1145_SUPPORT                   0
+#endif
+
+#ifndef SI1145_ADDRESS
+#define SI1145_ADDRESS                   0x60
+#endif
+
+// -----------------------------------------------------------------------------
 // ADC
 // -----------------------------------------------------------------------------
 
@@ -1351,19 +1377,6 @@
 #define I2C_PERFORM_SCAN                1       // Perform a bus scan on boot
 #endif
 
-// -----------------------------------------------------------------------------
-// ADE7953 Shelly Sensor
-// Enable support by passing ADE7953_SUPPORT=1 build flag
-// -----------------------------------------------------------------------------
-
-#ifndef ADE7953_SUPPORT
-#define ADE7953_SUPPORT                  0
-#endif
-
-#ifndef ADE7953_ADDRESS
-#define ADE7953_ADDRESS                  0x38
-#endif
-
 // =============================================================================
 // Configuration helpers
 // =============================================================================
@@ -1377,6 +1390,7 @@
     EMON_ADC121_SUPPORT || \
     EMON_ADS1X15_SUPPORT || \
     SHT3X_I2C_SUPPORT || \
+    SI1145_SUPPORT || \
     SI7021_SUPPORT || \
     VEML6075_SUPPORT || \
     VL53L1X_SUPPORT \
@@ -1439,6 +1453,7 @@
     SDS011_SUPPORT || \
     SENSEAIR_SUPPORT || \
     SHT3X_I2C_SUPPORT || \
+    SI1145_SUPPORT || \
     SI7021_SUPPORT || \
     SONAR_SUPPORT || \
     T6613_SUPPORT || \

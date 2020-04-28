@@ -300,16 +300,34 @@ PROGMEM const char espurna_sensors[] =
     #if ADE7953_SUPPORT
         "ADE7953 "
     #endif
+    #if SI1145_SUPPORT
+        "SI1145 "
+    #endif
     "";
 
 #endif // SENSOR_SUPPORT == 1
 
 //--------------------------------------------------------------------------------
 
-String getIdentifier() {
-    char buffer[20];
-    snprintf_P(buffer, sizeof(buffer), PSTR("%s-%06X"), APP_NAME, ESP.getChipId());
-    return String(buffer);
+const String& getChipId() {
+    static String value;
+    if (!value.length()) {
+        char buffer[7];
+        value.reserve(sizeof(buffer));
+        snprintf_P(buffer, sizeof(buffer), PSTR("%06X"), ESP.getChipId());
+        value = buffer;
+    }
+    return value;
+}
+
+const String& getIdentifier() {
+    static String value;
+    if (!value.length()) {
+        value += APP_NAME;
+        value += '-';
+        value += getChipId();
+    }
+    return value;
 }
 
 String getEspurnaModules() {
@@ -330,6 +348,14 @@ String getEspurnaWebUI() {
     return FPSTR(espurna_webui);
 }
 
+bool isEspurnaCore() {
+    #if defined(ESPURNA_CORE) || defined(ESPURNA_CORE_WEBUI)
+        return true;
+    #else
+        return false;
+    #endif
+}
+
 bool haveRelaysOrSensors() {
     bool result = false;
     result = (relayCount() > 0);
@@ -340,10 +366,8 @@ bool haveRelaysOrSensors() {
 }
 
 int getBoardId() {
-    #if defined(ESPURNA_CORE)
+    #if defined(ESPURNA_CORE) || defined(ESPURNA_CORE_WEBUI)
         return 0;
-    #elif defined(ESPURNA_BASE)
-        return 1;
     #elif defined(NODEMCU_LOLIN)
         return 2;
     #elif defined(NODEMCU_BASIC)

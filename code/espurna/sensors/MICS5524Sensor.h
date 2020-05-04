@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------------------
 // Analog Sensor (maps to an analogRead)
-// Copyright (C) 2017-2018 by Xose Pérez <xose dot perez at gmail dot com>
+// MICS-5524 (and MICS-xx) CO Analog Sensor
+// Copyright (C) 2017-2019 by Xose Pérez <xose dot perez at gmail dot com>
 // -----------------------------------------------------------------------------
 
 #if SENSOR_SUPPORT && MICS5524_SUPPORT

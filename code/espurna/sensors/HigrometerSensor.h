@@ -8,15 +8,16 @@
 #pragma once
 
 // Set ADC to TOUT pin
-#undef ADC_MODE_VALUE
-#define ADC_MODE_VALUE ADC_TOUT
+// #undef ADC_MODE_VALUE
+// #define ADC_MODE_VALUE ADC_TOUT
 
 #include <Arduino.h>
-//#include "BaseSensor.h"
+#include "../utils.h"
+#include "BaseSensor.h"
 #include "BaseAnalogSensor.h"
 #include "../debug.h"
 
-class HigrometerSensor : public BaseSensor {
+class HigrometerSensor : public BaseAnalogSensor {
 
     public:
 

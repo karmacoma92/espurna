@@ -191,6 +191,8 @@ PROGMEM const char espurna_sensors[] =
     #if ANALOG_SUPPORT
         "ANALOG "
     #endif
+//reeopp
+    #if ANALOGH_SUPPORT
         "HIGROMETER "
     #endif
     #if BH1750_SUPPORT
@@ -247,6 +249,7 @@ PROGMEM const char espurna_sensors[] =
     #if MICS2710_SUPPORT
         "MICS2710 "
     #endif
+//reeopp
     #if MICS5525_SUPPORT
         "MICS5525 "
     #endif
@@ -685,4 +688,3 @@ int getBoardId() {
         return -1; // CUSTOM
     #endif
 }
-

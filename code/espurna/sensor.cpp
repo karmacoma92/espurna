@@ -47,6 +47,11 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
     #include "sensors/AnalogSensor.h"
 #endif
 
+//reeopp
+#if ANALOGH_SUPPORT
+    #include "sensors/HigrometerSensor.h"
+#endif
+
 #if BH1750_SUPPORT
     #include "sensors/BH1750Sensor.h"
 #endif
@@ -117,7 +122,7 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 
 #if MAX6675_SUPPORT
     #include "sensors/MAX6675Sensor.h"
-#endif 
+#endif
 
 #if MICS2710_SUPPORT
     #include "sensors/MICS2710Sensor.h"
@@ -125,6 +130,11 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 
 #if MICS5525_SUPPORT
     #include "sensors/MICS5525Sensor.h"
+#endif
+
+//reeopp
+#if MICS5524_SUPPORT
+    #include "sensors/MICS5524Sensor.h"
 #endif
 
 #if MHZ19_SUPPORT

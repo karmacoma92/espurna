@@ -1516,9 +1516,6 @@ void _sensorLoad() {
         sensor->setSEL(getSetting("snsHlw8012SelGPIO", HLW8012_SEL_PIN));
         sensor->setCF(getSetting("snsHlw8012CfGPIO", HLW8012_CF_PIN));
         sensor->setCF1(getSetting("snsHlw8012Cf1GPIO", HLW8012_CF1_PIN));
-        sensor->setCurrentRatio(HLW8012_CURRENT_RATIO);
-        sensor->setVoltageRatio(HLW8012_VOLTAGE_RATIO);
-        sensor->setPowerRatio(HLW8012_POWER_RATIO);
         sensor->setSELCurrent(HLW8012_SEL_CURRENT);
         _sensors.push_back(sensor);
     }
@@ -1904,19 +1901,19 @@ void _sensorInit() {
             for (size_t index = 0; index < sensor->countDevices(); ++index) {
                 sensor->resetEnergy(index, _sensorEnergyTotal(index));
                 sensor->setCurrentRatio(
-                    get_ratio("pwrRatioC", index, sensor->getCurrentRatio(index))
+                    index, get_ratio("pwrRatioC", index, sensor->getCurrentRatio(index))
                 );
                 sensor->setVoltageRatio(
-                    get_ratio("pwrRatioV", index, sensor->getVoltageRatio(index))
+                    index, get_ratio("pwrRatioV", index, sensor->getVoltageRatio(index))
                 );
                 sensor->setPowerRatio(
-                    get_ratio("pwrRatioP", index, sensor->getPowerRatio(index))
+                    index, get_ratio("pwrRatioP", index, sensor->getPowerRatio(index))
                 );
                 sensor->setEnergyRatio(
-                    get_ratio("pwrRatioE", index, sensor->getEnergyRatio(index))
+                    index, get_ratio("pwrRatioE", index, sensor->getEnergyRatio(index))
                 );
                 sensor->setVoltage(
-                    get_ratio("pwrVoltage", index, sensor->getVoltage(index))
+                    index, get_ratio("pwrVoltage", index, sensor->getVoltage(index))
                 );
             }
 

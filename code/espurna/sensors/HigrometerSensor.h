@@ -96,7 +96,8 @@ class HigrometerSensor : public BaseAnalogSensor {
         }
 
         // Descriptive name of the slot # index
-        String slot(unsigned char index) {
+        //String slot(unsigned char index) {
+         String description(unsigned char index) {
             return description();
         };
 

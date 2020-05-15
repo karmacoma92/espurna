@@ -5,8 +5,8 @@
 #pragma once
 
 #define APP_NAME                "ESPURNA"
-#define APP_VERSION             "1.14.2.PA12-dev"
-#define APP_REVISION            "200502"
+#define APP_VERSION             "1.14.2.PA13-dev"
+#define APP_REVISION            "200514"
 #define APP_AUTHOR              "xose.perez@gmail.com"
 #define APP_WEBSITE             "http://tinkerman.cat"
 #define CFG_VERSION             4

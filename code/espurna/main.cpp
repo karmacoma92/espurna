@@ -131,7 +131,7 @@ void setup() {
 
     // Return bogus free heap value for broken devices
     // XXX: device is likely to trigger other bugs! tread carefuly
-    wtfHeap(getSetting<int>("wtfHeap", 0));
+    wtfHeap(getSetting("wtfHeap", 0));
 
     // Init Serial, SPIFFS and system check
     systemSetup();
@@ -191,6 +191,10 @@ void setup() {
     // lightSetup must be called before relaySetup
     #if LIGHT_PROVIDER != LIGHT_PROVIDER_NONE
         lightSetup();
+    #endif
+    // rpnSetup must be called before relaySetup
+    #if RPN_RULES_SUPPORT
+        rpnSetup();
     #endif
     #if RELAY_SUPPORT
         relaySetup();
@@ -261,9 +265,6 @@ void setup() {
     #endif
     #if SCHEDULER_SUPPORT
         schSetup();
-    #endif
-    #if RPN_RULES_SUPPORT
-        rpnSetup();
     #endif
     #if UART_MQTT_SUPPORT
         uartmqttSetup();

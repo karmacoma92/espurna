@@ -30,6 +30,8 @@ static_assert(
 #include "broker.h"
 #include "ws.h"
 
+BrokerBind(NtpBroker);
+
 // Arduino/esp8266 lwip2 custom functions that can be redefined
 // Must return time in milliseconds, legacy settings are in seconds.
 
@@ -380,20 +382,20 @@ void ntpSetup() {
     #endif
 
     #if TERMINAL_SUPPORT
-        terminalRegisterCommand(F("NTP"), [](Embedis* e) {
+        terminalRegisterCommand(F("NTP"), [](const terminal::CommandContext&) {
             _ntpReport();
             terminalOK();
         });
 
-        terminalRegisterCommand(F("NTP.SETTIME"), [](Embedis* e) {
-            if (e->argc != 2) return;
+        terminalRegisterCommand(F("NTP.SETTIME"), [](const terminal::CommandContext& ctx) {
+            if (ctx.argc != 2) return;
             _ntp_synced = true;
-            _ntpSetTimestamp(String(e->argv[1]).toInt());
+            _ntpSetTimestamp(ctx.argv[1].toInt());
             terminalOK();
         });
 
         // TODO:
-        // terminalRegisterCommand(F("NTP.SYNC"), [](Embedis* e) { ... }
+        // terminalRegisterCommand(F("NTP.SYNC"), [](const terminal::CommandContext&) { ... }
         //
     #endif
 

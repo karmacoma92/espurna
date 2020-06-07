@@ -184,6 +184,11 @@ void setup() {
             otaWebSetup();
         #endif
     #endif
+
+    // Multiple modules depend on the generic 'API' services
+    #if API_SUPPORT || TERMINAL_WEB_API_SUPPORT
+        apiCommonSetup();
+    #endif
     #if API_SUPPORT
         apiSetup();
     #endif

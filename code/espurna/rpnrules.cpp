@@ -14,6 +14,8 @@ Copyright (C) 2019 by Xose Pérez <xose dot perez at gmail dot com>
 #include "mqtt.h"
 #include "ntp.h"
 #include "relay.h"
+#include "rpc.h"
+#include "sensor.h"
 #include "terminal.h"
 #include "ws.h"
 
@@ -158,7 +160,7 @@ void _rpnInit() {
     rpn_init(_rpn_ctxt);
 
     // Time functions need NTP support
-    // TODO: since 1.14.2, timelib+ntpclientlib are no longer used with latest Cores
+    // TODO: since 1.15.0, timelib+ntpclientlib are no longer used with latest Cores
     //       `now` is always in UTC, `utc_...` functions to be used instead to convert time
     #if NTP_SUPPORT && !NTP_LEGACY_SUPPORT
         rpn_operator_set(_rpn_ctxt, "utc", 0, _rpnNtpNow);
@@ -280,7 +282,7 @@ void _rpnInit() {
 
 void _rpnInitCommands() {
 
-    terminalRegisterCommand(F("RPN.VARS"), [](Embedis* e) {
+    terminalRegisterCommand(F("RPN.VARS"), [](const terminal::CommandContext&) {
         unsigned char num = rpn_variables_size(_rpn_ctxt);
         if (0 == num) {
             DEBUG_MSG_P(PSTR("[RPN] No variables\n"));
@@ -296,7 +298,7 @@ void _rpnInitCommands() {
         terminalOK();
     });
 
-    terminalRegisterCommand(F("RPN.OPS"), [](Embedis* e) {
+    terminalRegisterCommand(F("RPN.OPS"), [](const terminal::CommandContext&) {
         unsigned char num = _rpn_ctxt.operators.size();
         DEBUG_MSG_P(PSTR("[RPN] Operators:\n"));
         for (unsigned char i=0; i<num; i++) {
@@ -305,10 +307,10 @@ void _rpnInitCommands() {
         terminalOK();
     });
 
-    terminalRegisterCommand(F("RPN.TEST"), [](Embedis* e) {
-        if (e->argc == 2) {
-            DEBUG_MSG_P(PSTR("[RPN] Running \"%s\"\n"), e->argv[1]);
-            rpn_process(_rpn_ctxt, e->argv[1], true);
+    terminalRegisterCommand(F("RPN.TEST"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc == 2) {
+            DEBUG_MSG_P(PSTR("[RPN] Running \"%s\"\n"), ctx.argv[1].c_str());
+            rpn_process(_rpn_ctxt, ctx.argv[1].c_str(), true);
             _rpnDump();
             rpn_stack_clear(_rpn_ctxt);
             terminalOK();
@@ -391,7 +393,10 @@ void rpnSetup() {
     #endif
 
     StatusBroker::Register(_rpnBrokerStatus);
-    SensorReadBroker::Register(_rpnBrokerCallback);
+
+    #if SENSOR_SUPPORT
+        SensorReadBroker::Register(_rpnBrokerCallback);
+    #endif
 
     espurnaRegisterReload(_rpnConfigure);
     espurnaRegisterLoop(_rpnLoop);

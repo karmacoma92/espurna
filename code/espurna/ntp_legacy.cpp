@@ -16,6 +16,8 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 #include "broker.h"
 #include "ws.h"
 
+BrokerBind(NtpBroker);
+
 Ticker _ntp_defer;
 
 bool _ntp_report = false;
@@ -248,7 +250,7 @@ void ntpSetup() {
     _ntpBackwards();
 
     #if TERMINAL_SUPPORT
-        terminalRegisterCommand(F("NTP"), [](Embedis* e) {
+        terminalRegisterCommand(F("NTP"), [](const terminal::CommandContext&) {
             if (ntpSynced()) {
                 _ntpReport();
                 terminalOK();
@@ -257,7 +259,7 @@ void ntpSetup() {
             }
         });
 
-        terminalRegisterCommand(F("NTP.SYNC"), [](Embedis* e) {
+        terminalRegisterCommand(F("NTP.SYNC"), [](const terminal::CommandContext&) {
             _ntpWantSync();
             terminalOK();
         });

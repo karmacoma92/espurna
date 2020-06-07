@@ -920,6 +920,7 @@ void _relayWebSocketUpdate(JsonObject& root) {
     JsonArray& status = state.createNestedArray("status");
     JsonArray& lock = state.createNestedArray("lock");
 
+    // Note: we use byte instead of bool to ever so slightly compress json output
     for (unsigned char i=0; i<relayCount(); i++) {
         status.add<uint8_t>(_relays[i].target_status);
         lock.add(_relays[i].lock);
@@ -1369,19 +1370,19 @@ void _relaySetupProvider() {
 
 void _relayInitCommands() {
 
-    terminalRegisterCommand(F("RELAY"), [](Embedis* e) {
-        if (e->argc < 2) {
+    terminalRegisterCommand(F("RELAY"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc < 2) {
             terminalError(F("Wrong arguments"));
             return;
         }
-        int id = String(e->argv[1]).toInt();
+        int id = ctx.argv[1].toInt();
         if (id >= relayCount()) {
             DEBUG_MSG_P(PSTR("-ERROR: Wrong relayID (%d)\n"), id);
             return;
         }
 
-        if (e->argc > 2) {
-            int value = String(e->argv[2]).toInt();
+        if (ctx.argc > 2) {
+            int value = ctx.argv[2].toInt();
             if (value == 2) {
                 relayToggle(id);
             } else {
@@ -1398,7 +1399,7 @@ void _relayInitCommands() {
     });
 
     #if 0
-    terminalRegisterCommand(F("RELAY.INFO"), [](Embedis* e) {
+    terminalRegisterCommand(F("RELAY.INFO"), [](const terminal::CommandContext&) {
         DEBUG_MSG_P(PSTR("    cur tgt pin type reset lock  delay_on   delay_off  pulse  pulse_ms\n"));
         DEBUG_MSG_P(PSTR("    --- --- --- ---- ----- ---- ---------- ----------- ----- ----------\n"));
         for (unsigned char index = 0; index < _relays.size(); ++index) {

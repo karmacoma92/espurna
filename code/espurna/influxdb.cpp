@@ -14,8 +14,10 @@ Copyright (C) 2017-2019 by Xose Pérez <xose dot perez at gmail dot com>
 #include <memory>
 
 #include "broker.h"
-#include "ws.h"
+#include "rpc.h"
+#include "sensor.h"
 #include "terminal.h"
+#include "ws.h"
 #include "libs/AsyncClientHelpers.h"
 
 const char InfluxDb_http_success[] = "HTTP/1.1 204";
@@ -152,8 +154,6 @@ void _idbConfigure() {
     if (_idb_enabled && !_idb_client) _idbInitClient();
 }
 
-#if BROKER_SUPPORT
-
 void _idbBrokerSensor(const String& topic, unsigned char id, double, const char* value) {
     idbSend(topic.c_str(), id, value);
 }
@@ -161,8 +161,6 @@ void _idbBrokerSensor(const String& topic, unsigned char id, double, const char*
 void _idbBrokerStatus(const String& topic, unsigned char id, unsigned int value) {
     idbSend(topic.c_str(), id, String(int(value)).c_str());
 }
-
-#endif // BROKER_SUPPORT
 
 // -----------------------------------------------------------------------------
 
@@ -260,8 +258,9 @@ void idbSetup() {
             .onKeyCheck(_idbWebSocketOnKeyCheck);
     #endif
 
-    #if BROKER_SUPPORT
-        StatusBroker::Register(_idbBrokerStatus);
+    StatusBroker::Register(_idbBrokerStatus);
+
+    #if SENSOR_SUPPORT
         SensorReportBroker::Register(_idbBrokerSensor);
     #endif
 
@@ -269,17 +268,13 @@ void idbSetup() {
     espurnaRegisterLoop(_idbFlush);
 
     #if TERMINAL_SUPPORT
-        terminalRegisterCommand(F("IDB.SEND"), [](Embedis* e) {
-            if (e->argc != 4) {
+        terminalRegisterCommand(F("IDB.SEND"), [](const terminal::CommandContext& ctx) {
+            if (ctx.argc != 4) {
                 terminalError(F("idb.send <topic> <id> <value>"));
                 return;
             }
 
-            const String topic = e->argv[1];
-            const auto id = atoi(e->argv[2]);
-            const String value = e->argv[3];
-
-            idbSend(topic.c_str(), id, value.c_str());
+            idbSend(ctx.argv[1].c_str(), ctx.argv[2].toInt(), ctx.argv[3].c_str());
         });
     #endif
 

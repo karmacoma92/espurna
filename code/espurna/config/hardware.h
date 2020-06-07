@@ -4692,6 +4692,8 @@
     #define MANUFACTURER            "KINGART"
     #define DEVICE                  "CURTAIN_SWITCH"
 
+    #define CURTAIN_SUPPORT         1
+
     // LEDs
     #define LED1_PIN                13
     #define LED1_PIN_INVERSE        1

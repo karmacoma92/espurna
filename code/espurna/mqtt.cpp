@@ -473,13 +473,13 @@ void _mqttWebSocketOnConnected(JsonObject& root) {
 
 void _mqttInitCommands() {
 
-    terminalRegisterCommand(F("MQTT.RESET"), [](Embedis* e) {
+    terminalRegisterCommand(F("MQTT.RESET"), [](const terminal::CommandContext&) {
         _mqttConfigure();
         mqttDisconnect();
         terminalOK();
     });
 
-    terminalRegisterCommand(F("MQTT.INFO"), [](Embedis* e) {
+    terminalRegisterCommand(F("MQTT.INFO"), [](const terminal::CommandContext&) {
         _mqttInfo();
         terminalOK();
     });
@@ -1180,7 +1180,9 @@ void mqttSetup() {
             .onKeyCheck(_mqttWebSocketOnKeyCheck);
 
         mqttRegister([](unsigned int type, const char*, const char*) {
-            if ((type == MQTT_CONNECT_EVENT) || (type == MQTT_DISCONNECT_EVENT)) wsPost(_mqttWebSocketOnData);
+            if ((type == MQTT_CONNECT_EVENT) || (type == MQTT_DISCONNECT_EVENT)) {
+                wsPost(_mqttWebSocketOnData);
+            }
         });
     #endif
 

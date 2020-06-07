@@ -13,6 +13,7 @@ Copyright (C) 2016-2019 by Xose Pérez <xose dot perez at gmail dot com>
 #include "api.h"
 #include "broker.h"
 #include "mqtt.h"
+#include "rpc.h"
 #include "rtcmem.h"
 #include "tuya.h"
 #include "ws.h"
@@ -1034,21 +1035,21 @@ void _lightChannelDebug(unsigned char id) {
 
 void _lightInitCommands() {
 
-    terminalRegisterCommand(F("BRIGHTNESS"), [](Embedis* e) {
-        if (e->argc > 1) {
-            _lightAdjustBrightness(e->argv[1]);
+    terminalRegisterCommand(F("BRIGHTNESS"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc > 1) {
+            _lightAdjustBrightness(ctx.argv[1].c_str());
             lightUpdate(true, true);
         }
         DEBUG_MSG_P(PSTR("Brightness: %u\n"), lightBrightness());
         terminalOK();
     });
 
-    terminalRegisterCommand(F("CHANNEL"), [](Embedis* e) {
+    terminalRegisterCommand(F("CHANNEL"), [](const terminal::CommandContext& ctx) {
         if (!lightChannels()) return;
 
         auto id = -1;
-        if (e->argc > 1) {
-            id = String(e->argv[1]).toInt();
+        if (ctx.argc > 1) {
+            id = ctx.argv[1].toInt();
         }
 
         if (id < 0 || id >= static_cast<decltype(id)>(lightChannels())) {
@@ -1058,8 +1059,8 @@ void _lightInitCommands() {
             return;
         }
 
-        if (e->argc > 2) {
-            _lightAdjustChannel(id, e->argv[2]);
+        if (ctx.argc > 2) {
+            _lightAdjustChannel(id, ctx.argv[2].c_str());
             lightUpdate(true, true);
         }
 
@@ -1068,27 +1069,27 @@ void _lightInitCommands() {
         terminalOK();
     });
 
-    terminalRegisterCommand(F("COLOR"), [](Embedis* e) {
-        if (e->argc > 1) {
-            lightColor(e->argv[1]);
+    terminalRegisterCommand(F("COLOR"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc > 1) {
+            lightColor(ctx.argv[1].c_str());
             lightUpdate(true, true);
         }
         DEBUG_MSG_P(PSTR("Color: %s\n"), lightColor().c_str());
         terminalOK();
     });
 
-    terminalRegisterCommand(F("KELVIN"), [](Embedis* e) {
-        if (e->argc > 1) {
-            _lightAdjustKelvin(e->argv[1]);
+    terminalRegisterCommand(F("KELVIN"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc > 1) {
+            _lightAdjustKelvin(ctx.argv[1].c_str());
             lightUpdate(true, true);
         }
         DEBUG_MSG_P(PSTR("Color: %s\n"), lightColor().c_str());
         terminalOK();
     });
 
-    terminalRegisterCommand(F("MIRED"), [](Embedis* e) {
-        if (e->argc > 1) {
-            _lightAdjustMireds(e->argv[1]);
+    terminalRegisterCommand(F("MIRED"), [](const terminal::CommandContext& ctx) {
+        if (ctx.argc > 1) {
+            _lightAdjustMireds(ctx.argv[1].c_str());
             lightUpdate(true, true);
         }
         DEBUG_MSG_P(PSTR("Color: %s\n"), lightColor().c_str());
